@@ -1,0 +1,13 @@
+/* ==========================================
+   Stylesheet for Gradio Interface
+   ========================================== */
+body {
+  background-color: #fafafa;
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+h2, h3 {
+  color: #222;
+}
+button {
+  font-weight: 600;
+}
