@@ -1,6 +1,6 @@
 {
-  "explicit_intent": "Predict fire spread and generate optimal rescue dispatch plan.",
-  "implicit_intent": "Provide real-time decision support to command center.",
-  "environment_context": "Fire rescue scenario with integration of heat distribution, building layout, firefighting resources, and trapped personnel information.",
+  "explicit_intent": "Integrate various data to predict fire spread and generate optimal rescue plans.",
+  "implicit_intent": "Enhance decision-making and efficiency in emergency fire rescue operations.",
+  "environment_context": "Fire rescue scenario with data on heat distribution, building layout, fire resources, and trapped individuals.",
   "intent_confidence": 0.95
 }

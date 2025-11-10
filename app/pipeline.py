@@ -9,25 +9,25 @@
 # ==========================================
 
 from planner.multimodal_input import parse_multimodal_input
-from planner.intent_recognition import recognize_intent
+from planner.task_decomposition import generate_task_plan
 
 
 def run_full_pipeline(text, image, audio, api_key=None):
     """
     系统执行主流程：
       1️⃣ 多模态输入解析；
-      2️⃣ 基于 GPT-4o 的意图识别；
+      2️⃣ 基于 GPT-4o 的任务分解；
       3️⃣ 返回标准化输出。
     """
     print("🔹 Step 1: Parsing multimodal input...")
     multimodal_data = parse_multimodal_input(text, image, audio)
 
-    print("🔹 Step 2: Recognizing intent (via GPT-4o)...")
-    intent_result = recognize_intent(multimodal_data, api_key=api_key)
+    print("🔹 Step 2: Decomposite tasks (via GPT-4o)...")
+    task_decomposition_results = generate_task_plan(multimodal_data, api_key=api_key)
 
     # ⚙️ 预留后续模块
     return {
-        "final_summary": intent_result,
+        "final_decomposition_results": task_decomposition_results,
         "visual_outputs": []  # aggregator 接口占位
     }
 

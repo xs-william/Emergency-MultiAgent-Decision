@@ -33,9 +33,9 @@ def handle_run(api_key: str,
         # ✅ 执行主流程
         result = run_full_pipeline(text=user_text, image=user_image, audio=user_audio, api_key=api_key)
 
-        summary = result.get("final_summary", {})
+        decomposition_tasks = result.get("final_decomposition_results", {})
         visuals = result.get("visual_outputs", [])
-        return summary, visuals, "✅ Analysis complete."
+        return decomposition_tasks, visuals, "✅ Analysis complete."
 
     except Exception as e:
         import traceback
