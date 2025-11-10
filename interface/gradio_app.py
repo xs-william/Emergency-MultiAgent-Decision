@@ -40,19 +40,19 @@ def launch_ui():
         with left_col:
             api_key, user_text, user_image, user_audio, run_btn, clear_btn, examples = build_input_panel()
         with right_col:
-            summary_json, visual_gallery, status_box = build_output_panel()
+            tasks_json, visual_gallery, status_box = build_output_panel()
 
         # ========== 绑定交互 ==========
         run_btn.click(
             fn=handle_run,
             inputs=[api_key, user_text, user_image, user_audio],
-            outputs=[summary_json, visual_gallery, status_box],
+            outputs=[tasks_json, visual_gallery, status_box],
         )
 
         clear_btn.click(
             fn=handle_clear,
             inputs=[],
-            outputs=[user_text, user_image, user_audio, summary_json, visual_gallery, status_box],
+            outputs=[user_text, user_image, user_audio, tasks_json, visual_gallery, status_box],
         )
 
         for i, btn in enumerate(examples, start=1):
@@ -74,5 +74,5 @@ def launch_ui():
 if __name__ == "__main__":
     print("✅ Launching Gradio UI ...")
     ui = launch_ui()
-    ui.launch(server_name="localhost", server_port=7860, share=True)
+    ui.launch(server_name="localhost", server_port=7860, share=False)
     print("✅ Gradio UI started successfully.")

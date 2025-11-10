@@ -16,8 +16,8 @@ def build_output_panel():
 
     """构建右侧输出区域组件"""
     with gr.Column():
-        gr.Markdown("### ✅ Decision Summary (JSON)")
-        summary_json = gr.JSON(label="Structured Output", value={})
+        gr.Markdown("### ✅ Task Decomposition (JSON)")
+        tasks_json = gr.JSON(label="Structured Output", value={})
 
         gr.Markdown("### 🖼️ Visual Outputs")
         visual_gallery = gr.Gallery(
@@ -29,4 +29,4 @@ def build_output_panel():
         gr.Markdown("### 📣 Status & Logs")
         status_box = gr.Textbox(label="Status", value="Ready.", interactive=False)
 
-    return summary_json, visual_gallery, status_box
+    return tasks_json, visual_gallery, status_box
