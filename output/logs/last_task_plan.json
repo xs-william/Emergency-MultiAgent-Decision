@@ -1,43 +1,47 @@
 {
-  "overall_goal": "Integrate fire heat distribution, building layout, firefighting resources, and trapped personnel information to predict fire spread path and generate optimal rescue dispatch plan, highlighting high-risk areas and key rescue routes for real-time decision support to the command center.",
+  "overall_goal": "Integrate fire heat distribution, building layout, firefighting resources, and trapped personnel information to predict fire spread paths and generate optimal rescue dispatch plans, highlighting high-risk areas and key rescue routes for real-time decision support to the command center.",
   "tasks": [
     {
       "task_id": "T1",
-      "task_goal": "Analyze heat distribution from visual input",
+      "task_goal": "Analyze fire heat distribution from visual input",
       "task_input": "image_data",
-      "expected_output": "heat map indicating fire intensity and location",
+      "expected_output": "heat map of fire distribution",
       "priority": "high",
       "dependencies": []
     },
     {
       "task_id": "T2",
-      "task_goal": "Extract building layout from provided images",
+      "task_goal": "Identify building layout and potential escape routes",
       "task_input": "image_data",
-      "expected_output": "detailed building layout with entry and exit points",
+      "expected_output": "building layout map with marked escape routes",
       "priority": "high",
-      "dependencies": []
+      "dependencies": [
+        "T1"
+      ]
     },
     {
       "task_id": "T3",
-      "task_goal": "Identify trapped personnel and their locations",
+      "task_goal": "Detect human distress signals and trapped personnel from audio",
       "task_input": "audio_data",
-      "expected_output": "list of detected human voices and their estimated locations",
+      "expected_output": "locations of trapped personnel and distress signal classification",
       "priority": "high",
-      "dependencies": []
+      "dependencies": [
+        "T1"
+      ]
     },
     {
       "task_id": "T4",
       "task_goal": "Assess available firefighting resources",
-      "task_input": "text_data on resource inventory",
-      "expected_output": "current status and location of firefighting resources",
+      "task_input": "resource_data",
+      "expected_output": "inventory of firefighting resources and their locations",
       "priority": "medium",
       "dependencies": []
     },
     {
       "task_id": "T5",
-      "task_goal": "Predict fire spread path",
-      "task_input": "heat map, building layout",
-      "expected_output": "predicted fire spread path over time",
+      "task_goal": "Predict fire spread paths",
+      "task_input": "heat_map, building_layout",
+      "expected_output": "predicted paths of fire spread",
       "priority": "high",
       "dependencies": [
         "T1",
@@ -47,23 +51,13 @@
     {
       "task_id": "T6",
       "task_goal": "Generate optimal rescue dispatch plan",
-      "task_input": "fire spread path, resource status, trapped personnel locations",
-      "expected_output": "rescue dispatch plan with prioritized actions",
+      "task_input": "fire_spread_paths, trapped_personnel_locations, firefighting_resources",
+      "expected_output": "rescue dispatch plan highlighting high-risk areas and key rescue routes",
       "priority": "high",
       "dependencies": [
         "T3",
         "T4",
         "T5"
-      ]
-    },
-    {
-      "task_id": "T7",
-      "task_goal": "Highlight high-risk areas and key rescue routes",
-      "task_input": "rescue dispatch plan, fire spread path",
-      "expected_output": "map with highlighted high-risk areas and rescue routes",
-      "priority": "medium",
-      "dependencies": [
-        "T6"
       ]
     }
   ]
