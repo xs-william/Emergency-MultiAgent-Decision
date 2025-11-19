@@ -23,7 +23,7 @@ class OpenAIClient(BaseLLMClient):
         openai.api_base = "https://api.nuwaapi.com/v1"
         self.model_name = model_name
 
-    def send_request(self, prompt: str) -> str:
+    def send_request(self, prompt) -> str:
         """发送 prompt 并返回原始模型响应文本"""
         response = openai.ChatCompletion.create(
             model=self.model_name,

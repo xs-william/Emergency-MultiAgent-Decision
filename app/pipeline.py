@@ -10,6 +10,7 @@
 
 from planner.multimodal_input import parse_multimodal_input
 from planner.task_decomposition import generate_task_plan
+from executor.executor_pipeline import run_executor_pipeline
 
 
 def run_full_pipeline(text, image, audio, api_key=None):
@@ -24,6 +25,9 @@ def run_full_pipeline(text, image, audio, api_key=None):
 
     print("🔹 Step 2: Decomposite tasks (via GPT-4o)...")
     task_decomposition_results = generate_task_plan(multimodal_data, api_key=api_key)
+
+    print("🔹 Step 3: Calling executors to handle subtasks...")
+    executor_results = run_executor_pipeline(task_decomposition_results, image, audio, api_key=api_key)
 
     # ⚙️ 预留后续模块
     return {
