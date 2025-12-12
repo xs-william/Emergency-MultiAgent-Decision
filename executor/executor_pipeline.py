@@ -25,6 +25,7 @@ from executor.decomp_parser import extract_tasks
 from executor.task_scheduler import get_scheduled_tasks
 from executor.task_executor import run_tasks_execution
 from executor.SAM_preprocessor import sam2_image_preprocess
+from executor.Astar_pathfinder import Astar_pathfinder
 
 
 def run_executor_pipeline(decomposition_results: Dict[str, Any], image, audio, api_key=None) -> List[Dict[str, Any]]:
@@ -61,17 +62,18 @@ def run_executor_pipeline(decomposition_results: Dict[str, Any], image, audio, a
             image_clipped = image_data.copy()
 
     sam2_result = sam2_image_preprocess(image_data)
+    astar_path = Astar_pathfinder(image_data)
 
     print("🔹 Step 4: Executing scheduled tasks...")
     tasks_results = run_tasks_execution(scheduled_tasks, None, None, api_key=api_key) #image_clipped
 
-    execution_results = {"sam2_result": sam2_result, "tasks_execution": tasks_results}
+    execution_results = {"sam2_result": sam2_result, "astar_path": astar_path, "tasks_execution": tasks_results}
 
     os.makedirs("output/logs", exist_ok=True)
     with open("output/logs/last_executor_result.json", "w", encoding="utf-8") as f:
         json.dump(tasks_results, f, ensure_ascii=False, indent=2)
 
-    # print(execution_results)
+    print("✅ Executor pipeline completed.")
 
     return execution_results
 
