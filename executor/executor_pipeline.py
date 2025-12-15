@@ -25,6 +25,8 @@ from executor.decomp_parser import extract_tasks
 from executor.task_scheduler import get_scheduled_tasks
 from executor.task_executor import run_tasks_execution
 from executor.SAM_preprocessor import sam2_image_preprocess
+from executor.Astar_pathfinder import Astar_pathfinder
+import speech_recognition as sr
 
 
 def run_executor_pipeline(decomposition_results: Dict[str, Any], image, audio, api_key=None) -> List[Dict[str, Any]]:
@@ -61,17 +63,28 @@ def run_executor_pipeline(decomposition_results: Dict[str, Any], image, audio, a
             image_clipped = image_data.copy()
 
     sam2_result = sam2_image_preprocess(image_data)
+    astar_path = Astar_pathfinder(image_data)
+    sr_text = ""
+
+    r = sr.Recognizer()
+    with sr.AudioFile(audio) as source:
+        audio_record = r.record(source)
+        try:
+            sr_text = r.recognize_google(audio_record, language='zh-CN')
+        except sr.UnknownValueError:
+            print("❌ Google Speech Recognition could not understand audio.")
 
     print("🔹 Step 4: Executing scheduled tasks...")
     tasks_results = run_tasks_execution(scheduled_tasks, None, None, api_key=api_key) #image_clipped
 
-    execution_results = {"sam2_result": sam2_result, "tasks_execution": tasks_results}
+    execution_results = {"sam2_result": sam2_result, "astar_path": astar_path, "sr_text": sr_text, "tasks_execution": tasks_results}
+    # print(execution_results)
 
     os.makedirs("output/logs", exist_ok=True)
     with open("output/logs/last_executor_result.json", "w", encoding="utf-8") as f:
         json.dump(tasks_results, f, ensure_ascii=False, indent=2)
 
-    # print(execution_results)
+    print("✅ Executor pipeline completed.")
 
     return execution_results
 
@@ -82,5 +95,5 @@ if __name__ == "__main__":
     sample_decomposition = json.load(file)
     file.close()
 
-    executor_result = run_executor_pipeline(sample_decomposition, "test/example1/image1.png", "test/example1/voice.mp3", api_key=None)
+    executor_result = run_executor_pipeline(sample_decomposition, "test/example1/image1.png", "test/example1/voice.flac", api_key=None)
     print(executor_result)
