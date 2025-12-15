@@ -27,10 +27,10 @@ def image_preprocess(image):
     for y in range(height):
         for x in range(width):
             r, g, b = img_array[y, x]
-            if r > 127 and r > g and r > b:
+            if r > 127 and g < 100 and b < 100:
                 start += np.array([x, y])
                 start_count += 1
-            elif g > 127 and g > r and g > b:
+            elif g > 127 and r < 100 and b < 100:
                 stop += np.array([x, y])
                 stop_count += 1
 
@@ -94,13 +94,13 @@ def Astar_pathfinder(image: Image.Image) -> list:
                 check_pos = (current_pos + direction / np.linalg.norm(direction) * step_check).astype(np.int32)
                 cx, cy = check_pos
                 cr, cg, cb = image.getpixel((cx, cy))
-                if cr < 50 and cg < 50 and cb < 50:
+                if cr < 100 and cg < 100 and cb < 100:
                     flag_collide = True
                     break
             if flag_collide:
                 continue
 
-            if g > 127 and g > r and g > b:  # 绿色终点
+            if g > 127 and r < 100 and b < 100:  # 绿色终点
                 print("✅ Path found!")
                 return path + [new_pos]
 
@@ -122,7 +122,7 @@ def Astar_pathfinder(image: Image.Image) -> list:
 
 if __name__ == '__main__':
     # 测试用例
-    image_path = "test/astar_test.png"
+    image_path = "test/测试样例/测试样例10.png"
     image = Image.open(image_path).convert("RGB")
 
     path = Astar_pathfinder(image)
