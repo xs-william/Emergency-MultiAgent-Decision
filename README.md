@@ -15,3 +15,8 @@ python ./interface/gradio_app.py
 - 规划器 planner
 - 调用器 executor
 - 总结器 aggregator
+
+## 注意事项
+
+- 寻路图片格式要求见测试样例
+- 音频请使用 flac

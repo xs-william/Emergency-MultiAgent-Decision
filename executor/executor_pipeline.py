@@ -66,13 +66,14 @@ def run_executor_pipeline(decomposition_results: Dict[str, Any], image, audio, a
     astar_path = Astar_pathfinder(image_data)
     sr_text = ""
 
-    r = sr.Recognizer()
-    with sr.AudioFile(audio) as source:
-        audio_record = r.record(source)
-        try:
-            sr_text = r.recognize_google(audio_record, language='zh-CN')
-        except sr.UnknownValueError:
-            print("❌ Google Speech Recognition could not understand audio.")
+    if audio is not None:
+        r = sr.Recognizer()
+        with sr.AudioFile(audio) as source:
+            audio_record = r.record(source)
+            try:
+                sr_text = r.recognize_google(audio_record, language='zh-CN')
+            except sr.UnknownValueError:
+                print("❌ Google Speech Recognition could not understand audio.")
 
     print("🔹 Step 4: Executing scheduled tasks...")
     tasks_results = run_tasks_execution(scheduled_tasks, None, None, api_key=api_key) #image_clipped
